@@ -8,8 +8,8 @@
 
 /* the headlines (categories and pages in this category) */
 .catpageheadline {
-    text-decoration: underline;
-    font-size: x-large;
+    color: gray;
+    font-size: 80%;
     clear: left;
 }
 
