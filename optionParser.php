@@ -52,6 +52,13 @@ class optionParser {
         }
     }
 
+    static function checkAnchorName(&$match, &$varAffected){
+        if(preg_match("/-anchorName *=? *\"?([[:alnum:]]+)\"?/i", $match, $found)) {
+            $varAffected = $found[1];
+            $match = str_replace($found[0], '', $match);
+        }
+    }
+
     static function checkTextPages(&$match, &$varAffected, $plugin){
         if(preg_match("/-textPages? *= *\"([^\"]*)\"/i", $match, $found)) {
             $varAffected = $found[1];
@@ -59,7 +66,6 @@ class optionParser {
         } else {
             $varAffected = $plugin->getLang('pagesinthiscat');
         }
-        $varAffected = htmlspecialchars($varAffected);
     }
 
     static function checkTextNs(&$match, &$varAffected, $plugin){
@@ -69,7 +75,6 @@ class optionParser {
         } else {
             $varAffected = $plugin->getLang('subcats');
         }
-        $varAffected = htmlspecialchars($varAffected);
     }
 
     static function checkExclude(&$match, &$excludedPages, &$excludedNs){

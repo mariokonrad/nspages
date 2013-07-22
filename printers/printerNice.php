@@ -11,13 +11,15 @@ require_once 'rendererXhtmlHelper.php';
 
 class nspages_printerNice extends nspages_printer {
     private $nbCols;
+    private $anchorName;
 
-    function __construct($plugin, $mode, $renderer, $nbCols){
+    function __construct($plugin, $mode, $renderer, $nbCols, $anchorName){
         parent::__construct($plugin, $mode, $renderer);
         if ( $this->mode !== 'xhtml' ){
           throw Exception('nspages_printerNice can only work in xhtml mode');
         }
         $this->nbCols = $this->_computeActualNbCols($nbCols);
+        $this->anchorName = $anchorName;
     }
 
     private function _computeActualNbCols($nbCols){
@@ -28,12 +30,12 @@ class nspages_printerNice extends nspages_printer {
         return $nbCols;
     }
 
-    function _print($tab, $type, $text, $reverse) {
+    function _print($tab, $type) {
         $nbItemsPrinted = 0;
 
         $nbItemPerColumns = $this->_computeNbItemPerColumns(sizeof($tab));
         $actualNbCols = count($nbItemPerColumns);
-        $helper = new rendererXhtmlHelper($this->renderer, $actualNbCols, $this->plugin);
+        $helper = new rendererXhtmlHelper($this->renderer, $actualNbCols, $this->plugin, $this->anchorName);
 
         $helper->openColumn();
         $firstCharOfLastAddedPage = $this->_firstChar($tab[0]);
